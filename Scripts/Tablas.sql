@@ -1,15 +1,15 @@
 create table evaluacion (
 	id int primary key identity,
+	id_candidato int not null references candidato(id),
 	fecha_evaluacion date not null,
-	resultado_examen_psicologico varchar(1) not null,
-	resultado_examen_algoritmos varchar(1) not null,
-	resultado_examen_sql varchar(1) not null,
-	resultado_final varchar(1) not null
+	resultado_examen_psicologico int not null,
+	resultado_examen_algoritmos int not null,
+	resultado_examen_sql int not null,
+	resultado_final int not null
 )
 
 create table candidato (
 	id int primary key identity,
-	id_evaluacion int not null references evaluacion(id),
 	nombre varchar(30) not null,
 	apellido varchar(30) not null,
 	edad int not null,
