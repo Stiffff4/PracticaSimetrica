@@ -28,6 +28,11 @@ namespace PracticaSimetrica.Controllers
             return View();
         }
 
+        public IActionResult Candidato()
+        {
+            return RedirectToAction("ObtenerCandidatosRegistrados", "Candidato");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
