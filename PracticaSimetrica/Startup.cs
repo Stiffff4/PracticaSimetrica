@@ -8,6 +8,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Database.Data;
+using Microsoft.EntityFrameworkCore;
+using IDataAccess.Candidatos;
+using IDataAccess.Evaluaciones;
+using IBusinessLogic.Candidatos;
+using IBusinessLogic.Evaluaciones;
+using BusinessLogic.Candidatos;
+using BusinessLogic.Evaluaciones;
+using DataAccess.Candidatos;
+using DataAccess.Evaluaciones;
+using Database.OperationResult;
+using BusinessLogic;
+using IDataAccess.IBaseData;
+using DataAccess.BaseData;
+using IBusinessLogic.IBaseService;
+using BusinessLogic.BaseService;
 
 namespace PracticaSimetrica
 {
@@ -24,6 +40,23 @@ namespace PracticaSimetrica
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<ICandidatosService, CandidatosService>();
+            services.AddScoped<IEvaluacionesService, EvaluacionesService>();
+            services.AddScoped<IDataCandidatos, DataCandidatos>();
+            services.AddScoped<IDataEvaluaciones, DataEvaluaciones>();
+
+            services.AddScoped<IOperationResult, OperationResult>();
+            services.AddScoped(typeof(IValidacion<>), (typeof(Validacion<>)));
+
+            services.AddScoped(typeof(IBaseService<>), (typeof(BaseService<>)));
+            services.AddScoped(typeof(IBaseData<>), (typeof(BaseData<>)));
+
+
+
+            services.AddDbContext<EvaluacionContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EvaluacionContext")));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

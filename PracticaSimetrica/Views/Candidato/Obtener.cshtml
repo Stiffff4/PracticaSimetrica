@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Database.Models.Candidato>
+
+@{
+    ViewData["Title"] = "Candidatos";
+}
+
+<h1>Candidatos registrados</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Apellido
+            </th>
+            <th>
+                Edad
+            </th>
+            <th>
+                Fecha de nacimiento
+            </th>
+            <th>
+                Cedula
+            </th>
+            <th>
+                Accion
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.edad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha_nacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cedula)
+                </td>
+                <td>
+                    @Html.ActionLink("Evaluar", "RegistroEvaluaciones", "Evaluaciones", new { id_candidato = item.id }) |
+                    @Html.ActionLink("Ver evaluaciones", "ObtenerEvaluacion", "Evaluaciones", new { id = item.id }) |
+                    @Html.ActionLink("Modificar", "ModificacionCandidato", new { id = item.id }) |
+                    @Html.ActionLink("Eliminar", "Eliminar", new { id = item.id } )
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<input type="button" class="btn btn-primary" value="Registrar un candidato" onclick="location.href='@Url.Action("RegistroCandidatos")'" />
