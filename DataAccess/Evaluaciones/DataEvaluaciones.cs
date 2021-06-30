@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Database.Models;
 using Database.Data;
 using IDataAccess.Evaluaciones;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Evaluaciones
 {
