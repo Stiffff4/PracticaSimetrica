@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Database.Data;
 using Database.Models;
 using IDataAccess.Candidatos;
-using Microsoft.EntityFrameworkCore;
 using DataAccess.BaseData;
 
 namespace DataAccess.Candidatos
@@ -20,36 +17,46 @@ namespace DataAccess.Candidatos
         }
         public bool agregarCandidato(Candidato candidato)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var resultado = _context.Candidatos.Add(candidato);
-                _context.SaveChanges();
+                try
+                {
+                    var resultado = _context.Candidatos.Add(candidato);
+                    _context.SaveChanges();
+                    transaction.Commit();
 
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e.GetBaseException();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw e.GetBaseException();
+                }
             }
         }
 
         public bool modificarCandidato(Candidato candidato)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var resultado = _context.Candidatos.Find(candidato.id);
+                try
+                {
+                    var resultado = _context.Candidatos.Find(candidato.id);
 
-                if (resultado == null)
-                    throw new Exception("No se encontró a ningún candidato con el id " + candidato.id);
+                    if (resultado == null)
+                        throw new Exception("No se encontró a ningún candidato con el id " + candidato.id);
 
-                _context.Entry(resultado).CurrentValues.SetValues(candidato);
-                _context.SaveChanges();
+                    _context.Entry(resultado).CurrentValues.SetValues(candidato);
+                    _context.SaveChanges();
+                    transaction.Commit();
 
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e.GetBaseException();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw e.GetBaseException();
+                }
             }
         }
 
@@ -89,23 +96,28 @@ namespace DataAccess.Candidatos
         public bool eliminarCandidato(int id)
         {
             var candidato = _context.Candidatos.Find(id);
-
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                if (candidato != null)
+                try
                 {
-                    _context.Candidatos.Remove(candidato);
+                    if (candidato != null)
+                    {
+                        _context.Candidatos.Remove(candidato);
 
-                    _context.SaveChanges();
+                        _context.SaveChanges();
 
-                    return true;
+                        transaction.Commit();
+
+                        return true;
+                    }
+
+                    else throw new Exception("No se encontro");
                 }
-
-                else throw new Exception("No se encontro");
-            }
-            catch (Exception e)
-            {
-                throw e.GetBaseException();
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw e.GetBaseException();
+                }
             }
         }
     }

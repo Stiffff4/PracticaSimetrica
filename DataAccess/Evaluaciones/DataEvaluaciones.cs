@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Database.Models;
 using Database.Data;
 using IDataAccess.Evaluaciones;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Evaluaciones
 {
@@ -46,41 +43,51 @@ namespace DataAccess.Evaluaciones
         }
         public bool evaluarCandidato(Evaluacion evaluacion)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                _context.Evaluaciones.Add(evaluacion);
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e.InnerException ?? e;
+                try
+                {
+                    _context.Evaluaciones.Add(evaluacion);
+                    _context.SaveChanges();
+                    transaction.Commit();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw e.InnerException ?? e;
+                }
             }
         }
 
         public bool eliminarEvaluaciones(int id)
         {
-
-            var evaluacion = _context.Evaluaciones.Where(x=> x.id_candidato == id).ToList();
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                if (evaluacion.Count < 1)
+                var evaluacion = _context.Evaluaciones.Where(x => x.id_candidato == id).ToList();
+                try
                 {
-                    throw new Exception("No hay ninguna evaluacion");
-                }
+                    if (evaluacion.Count < 1)
+                    {
+                        throw new Exception("No hay ninguna evaluacion");
+                    }
 
-                foreach (var ev in evaluacion)
+                    foreach (var ev in evaluacion)
+                    {
+                        _context.Evaluaciones.Remove(ev);
+                    }
+
+                    _context.SaveChanges();
+                    transaction.Commit();
+
+                    return true;
+                }
+                catch (Exception e)
                 {
-                    _context.Evaluaciones.Remove(ev);
+                    transaction.Rollback();
+                    throw e.GetBaseException();
                 }
-
-                _context.SaveChanges();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw e.GetBaseException();
             }
         }
     }

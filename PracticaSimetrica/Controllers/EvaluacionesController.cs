@@ -1,24 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IBusinessLogic.Evaluaciones;
 using Database.Models;
-using IBusinessLogic.Candidatos;
 
 namespace PracticaSimetrica.Controllers
 {
     public class EvaluacionesController : Controller
     {
         private readonly IEvaluacionesService _serviceEvaluaciones;
-        private readonly ICandidatosService _serviceCandidatos;
 
 
-        public EvaluacionesController(IEvaluacionesService Eservice, ICandidatosService Cservice)
+        public EvaluacionesController(IEvaluacionesService Eservice)
         {
             _serviceEvaluaciones = Eservice;
-            _serviceCandidatos = Cservice;
         }
 
         [HttpGet]

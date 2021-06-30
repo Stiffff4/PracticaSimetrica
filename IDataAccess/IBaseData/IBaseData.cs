@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IDataAccess.IBaseCreate;
+using IDataAccess.IBaseRead;
+using IDataAccess.IBaseUpdate;
+using IDataAccess.IBaseDelete;
 
 namespace IDataAccess.IBaseData
 {
-    public interface IBaseData<T> where T: class
+    public interface IBaseData<T>: IBaseCreate<T>, IBaseRead<T>, IBaseUpdate<T>, IBaseDelete<T> where T: class
     {
-        bool Agregar(T entity);
 
-        List<T> Obtener();
-        
-        T ObtenerPorId(int id);
-
-        bool Editar(T entity);
-
-        bool Eliminar(int id);
     }
 }
