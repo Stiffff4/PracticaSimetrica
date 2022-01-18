@@ -13,7 +13,6 @@ namespace Database.OperationResult
         HttpStatusCode status { get; set; }
         void GetSuccessOperation(Object result);
         void GetErrorOperation(Exception message, HttpStatusCode status = HttpStatusCode.InternalServerError, bool IsWarning = false);
-
     }
 
 
@@ -106,7 +105,7 @@ namespace Database.OperationResult
         {
             if (ex.Message.Contains("Timeout"))
             {
-                status = System.Net.HttpStatusCode.RequestTimeout;
+                status = HttpStatusCode.RequestTimeout;
             }
             else if (ex.Message.Contains("No HTTP resource was found"))
             {

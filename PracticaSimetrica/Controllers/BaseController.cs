@@ -16,7 +16,7 @@ namespace PracticaSimetrica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _bs.Agregar(entity);
+                    _bs.Agregar(entity);
             }
 
             return View(entity);

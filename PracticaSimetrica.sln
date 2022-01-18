@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticaSimetrica", "PracticaSimetrica\PracticaSimetrica.csproj", "{813AA6E7-C554-4E67-98AA-683E5F7A1E78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluacionCandidatos", "PracticaSimetrica\EvaluacionCandidatos.csproj", "{813AA6E7-C554-4E67-98AA-683E5F7A1E78}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{413248BD-7604-4020-879B-AEABD318D6CA}"
 EndProject
